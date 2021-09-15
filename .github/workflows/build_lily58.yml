@@ -52,7 +52,7 @@ jobs:
           
         # Clear build directory
       - name: delete compilation residue
-        run:  rm -rf build/zephyr/*
+        run:  rm -rf build/*
         
       # Lily58 Pro right nice_nano
       - name: West Build (lily58_right)
