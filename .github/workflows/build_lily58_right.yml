@@ -1,9 +1,9 @@
 on:
   push:
     paths:
-      - 'config/boards/shields/lily58'
+      - 'config/boards/shields/lily58/*'
 
-name: Build lily58_right
+name: Build lily58 Pro
 
 jobs:
   build:
