@@ -38,9 +38,29 @@ jobs:
       - name: West Zephyr export
         run: west zephyr-export
         
+        # Lily58 Pro LEFT nice_nano
+      - name: West Build (lily58_left)
+        run: west build -s zmk/left -b nice_nano_v2 -- -DSHIELD=lily58_left -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+      - name: lily58 DTS File
+        if: ${{ always() }}
+        run: cat -n build/zephyr/nice_nano.dts.pre.tmp
+      - name: lily58 Kconfig file
+        run: cat build/zephyr/.config | grep -v "^#" | grep -v "^$"
+      - name: Rename zmk.uf2
+        run: cp build/zephyr/zmk.uf2 lily58_Left.uf2
+      - name: Archive (lily58_left)
+        uses: actions/upload-artifact@v2
+        with:
+          name: firmware
+          path: lily58_Left.uf2
+          
+        # Clear build directory
+      - name: delete compilation residue
+        run:  rm -rf build/zephyr/*
+        
       # Lily58 Pro right nice_nano
       - name: West Build (lily58_right)
-        run: west build -s zmk/app -b nice_nano -- -DSHIELD=lily58_right -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+        run: west build -s zmk/right -b nice_nano_v2 -- -DSHIELD=lily58_right -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
       - name: lily58 DTS File
         if: ${{ always() }}
         run: cat -n build/zephyr/nice_nano.dts.pre.tmp
@@ -53,7 +73,4 @@ jobs:
         with:
           name: firmware
           path: lily58_right.uf2
-          
-      # Clear build directory
-      - name: delete compilation residue
-        run:  rm -rf build/zephyr/*
+
