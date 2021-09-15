@@ -1,5 +1,8 @@
-on: [push, pull_request, workflow_dispatch]
-
+on:
+  push:
+    paths:
+      - 'config/boards/shields/lily58'
+      
 name: Build lily58_left
 
 jobs:

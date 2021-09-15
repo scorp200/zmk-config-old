@@ -1,4 +1,8 @@
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    paths:
+      - 'config/boards/shields/vanana'
+      - 'config/boards/shields/waaffle'
 
 name: Build delikeeb
 
