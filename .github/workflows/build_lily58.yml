@@ -2,6 +2,7 @@ on:
   push:
     paths:
       - 'config/boards/shields/lily58/*'
+      - '.github/workflows/build_lily58.yml'
 
 name: Build lily58 Pro
 
@@ -10,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: zmkfirmware/zmk-build-arm:2.5
-    name: Lily58_right Workflow
+    name: Lily5 Workflow
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -40,12 +41,7 @@ jobs:
         
         # Lily58 Pro LEFT nice_nano
       - name: West Build (lily58_left)
-        run: west build -s zmk/left -b nice_nano_v2 -- -DSHIELD=lily58_left -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-      - name: lily58 DTS File
-        if: ${{ always() }}
-        run: cat -n build/zephyr/nice_nano.dts.pre.tmp
-      - name: lily58 Kconfig file
-        run: cat build/zephyr/.config | grep -v "^#" | grep -v "^$"
+        run: west build -s app -b nice_nano_v2 -- -DSHIELD=lily58_left -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
       - name: Rename zmk.uf2
         run: cp build/zephyr/zmk.uf2 lily58_Left.uf2
       - name: Archive (lily58_left)
@@ -60,12 +56,7 @@ jobs:
         
       # Lily58 Pro right nice_nano
       - name: West Build (lily58_right)
-        run: west build -s zmk/right -b nice_nano_v2 -- -DSHIELD=lily58_right -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-      - name: lily58 DTS File
-        if: ${{ always() }}
-        run: cat -n build/zephyr/nice_nano.dts.pre.tmp
-      - name: lily58 Kconfig file
-        run: cat build/zephyr/.config | grep -v "^#" | grep -v "^$"
+        run: west build -s app -b nice_nano_v2 -- -DSHIELD=lily58_right -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
       - name: Rename zmk.uf2
         run: cp build/zephyr/zmk.uf2 lily58_right.uf2
       - name: Archive (lily58_right)
